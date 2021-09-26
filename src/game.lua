@@ -1,15 +1,11 @@
 Game = {}
 
+Game.player = require("src/player")
 Game.isPaused = false
 
 function Game:load()
-  self.icon = love.graphics.newImage("assets/love-icon.png")
-  self.iconW, self.iconH = self.icon:getDimensions()
-  self.halfIconW = self.iconW / 2
-  self.halfIconH = self.iconH / 2
-  self.elapsed = 0
-  self.iconR = 0
   self.font = love.graphics.newFont(20)
+  self.player:load()
 end
 
 function Game:update(dt)
@@ -17,23 +13,21 @@ function Game:update(dt)
     return
   end
 
-  self.elapsed = (self.elapsed + dt) % 1
-  self.iconR = 2 * math.pi * self.elapsed
+  self.player:update(dt)
 end
 
 function Game:draw()
-  local winW, winH = love.window.getMode()
-  local centerX = winW / 2
-  local centerY = winH / 2
-  love.graphics.draw(self.icon, centerX, centerY, self.iconR, 1, 1, self.halfIconW, self.halfIconH)
+  self.player:draw()
 
   if self.isPaused then
+    local winW, winH = love.window.getMode()
     love.graphics.setColor(0, 0, 0, .5)
     love.graphics.rectangle("fill", 0, 0, winW, winH)
 
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(self.font)
-    love.graphics.printf("Paused", 0, centerY + self.halfIconH + 10, winW, "center")
+    local textYPos = (winH / 2) + self.player.halfIconH + 10
+    love.graphics.printf("Paused", 0, textYPos, winW, "center")
   end
 end
 
