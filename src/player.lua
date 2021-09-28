@@ -1,4 +1,4 @@
-Player = {}
+local Player = {}
 
 function Player:load()
   self.icon = love.graphics.newImage("assets/love-icon.png")

@@ -1,4 +1,4 @@
-Game = {}
+local Game = {}
 
 Game.player = require("src/player")
 Game.isPaused = false
