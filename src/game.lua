@@ -2,13 +2,11 @@ local Game = {}
 
 Game.player = require("src/player")
 Game.isPaused = false
+Game.bgGradient = nil
 
 function Game:load()
   -- Set the font size for drawing the "Paused" text
   self.font = love.graphics.newFont(20)
-
-  -- Create and store a blue gradient to use as the background.
-  self:generateGradient()
 
   self.player:load()
 end
@@ -23,7 +21,10 @@ function Game:update(dt)
 end
 
 function Game:draw()
-  -- Draw the background gradient
+  -- Draw the background gradient if it's not set yet
+  if (self.bgGradient == nil) then
+    self:generateGradient()
+  end
   love.graphics.draw(self.bgGradient)
 
   -- Draw the "player"
@@ -63,6 +64,12 @@ function Game:generateGradient()
   love.graphics.setCanvas()
   -- Set color back to white so that the icon isn't tinted when drawn
   love.graphics.setColor(1, 1, 1, 1)
+end
+
+function Game:windowWasResized()
+  -- Nil out the background gradient so it will be regenerated at the new size
+  -- on the next draw() call
+  self.bgGradient = nil
 end
 
 return Game

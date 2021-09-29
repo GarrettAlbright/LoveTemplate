@@ -1,6 +1,7 @@
 local game = require("src/Game")
 
 function love.load()
+  love.window.setTitle("LÖVE Template")
   game:load()
 end
 
@@ -23,4 +24,8 @@ function love.keypressed(key)
   if (key == "escape") then
     game:setPause(not game.isPaused)
   end
+end
+
+function love.resize()
+  game:windowWasResized()
 end
