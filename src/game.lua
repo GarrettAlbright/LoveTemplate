@@ -47,6 +47,8 @@ function Game:generateGradient()
     love.graphics.line(0, yPos, winW, yPos)
   end
   love.graphics.setCanvas()
+  -- Set color back to white so that the icon isn't tinted when drawn
+  love.graphics.setColor(1, 1, 1, 1)
 end
 
 return Game
