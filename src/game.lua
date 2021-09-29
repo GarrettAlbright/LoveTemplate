@@ -4,12 +4,17 @@ Game.player = require("src/player")
 Game.isPaused = false
 
 function Game:load()
+  -- Set the font size for drawing the "Paused" text
   self.font = love.graphics.newFont(20)
+
+  -- Create and store a blue gradient to use as the background.
   self:generateGradient()
+
   self.player:load()
 end
 
 function Game:update(dt)
+  -- Don't update game state if the game is paused
   if self.isPaused then
     return
   end
@@ -18,9 +23,16 @@ function Game:update(dt)
 end
 
 function Game:draw()
+  -- Draw the background gradient
   love.graphics.draw(self.bgGradient)
+
+  -- Draw the "player"
   self.player:draw()
 
+  -- If the game is paused, darken the graphics by drawing a transparent black
+  -- rectangle over it, then draw "Paused" text.
+  -- @todo Store this in a canvas so we don't redraw the whole thing each frame
+  --       while the game is paused.
   if self.isPaused then
     local winW, winH = love.window.getMode()
     love.graphics.setColor(0, 0, 0, .5)
@@ -37,6 +49,8 @@ function Game:setPause(pause)
   self.isPaused = pause
 end
 
+-- Draw a blue gradient to use as the background by drawing a series of
+-- vertical lines in shades of blue.
 function Game:generateGradient()
   local winW, winH = love.window.getMode()
   self.bgGradient = love.graphics.newCanvas(winW, winH)

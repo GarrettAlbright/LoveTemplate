@@ -10,11 +10,13 @@ function Player:load()
 end
 
 function Player:update(dt)
+  -- Rotate the icon 360 degrees a second.
   self.elapsed = (self.elapsed + dt) % 1
   self.iconR = 2 * math.pi * self.elapsed
 end
 
 function Player:draw()
+  -- Determine the center of the screen and draw the icon there.
   local winW, winH = love.window.getMode()
   local centerX = winW / 2
   local centerY = winH / 2
